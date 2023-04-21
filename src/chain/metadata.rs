@@ -1,2 +1,2 @@
-#[::subxt::subxt(runtime_metadata_url = "wss://rpc.polkadot.io:443")]
+#[::subxt::subxt(runtime_metadata_path = "res/edu_chain_metadata.scale")]
 pub mod edu_chain {}
