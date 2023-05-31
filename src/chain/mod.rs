@@ -1,16 +1,15 @@
 pub mod config;
 pub mod metadata;
 
-use config::DatahighwayConfig;
+use config::EduchainConfig;
 
-pub type DatahighwayOnlineClient = subxt::OnlineClient<DatahighwayConfig>;
-pub type DatahighwayBlocksClient =
-    subxt::blocks::BlocksClient<DatahighwayConfig, DatahighwayOnlineClient>;
-pub type DatahighwayStorageClient =
-    subxt::storage::StorageClient<DatahighwayConfig, DatahighwayOnlineClient>;
-pub type DatahighwayRpcClient = subxt::rpc::RpcClient;
+pub type EduchainOnlineClient = subxt::OnlineClient<EduchainConfig>;
+pub type EduchainBlocksClient = subxt::blocks::BlocksClient<EduchainConfig, EduchainOnlineClient>;
+pub type EduchainStorageClient =
+    subxt::storage::StorageClient<EduchainConfig, EduchainOnlineClient>;
+pub type EduchainRpcClient = subxt::rpc::RpcClient;
 
-pub type AccountId = <DatahighwayConfig as subxt::Config>::AccountId;
+pub type AccountId = <EduchainConfig as subxt::Config>::AccountId;
 pub type Balance = config::Balance;
-pub type Index = <DatahighwayConfig as subxt::Config>::Index;
-pub type Hash = <DatahighwayConfig as subxt::Config>::Hash;
+pub type Index = <EduchainConfig as subxt::Config>::Index;
+pub type Hash = <EduchainConfig as subxt::Config>::Hash;

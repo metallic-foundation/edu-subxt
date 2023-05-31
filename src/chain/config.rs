@@ -2,9 +2,9 @@ use subxt::Config;
 use subxt::SubstrateConfig;
 
 #[derive(Clone, Copy, Eq, PartialEq, PartialOrd, Ord)]
-pub struct DatahighwayConfig;
+pub struct EduchainConfig;
 
-impl subxt::config::Config for DatahighwayConfig {
+impl subxt::config::Config for EduchainConfig {
     type Index = u32;
     type Hash = subxt::utils::H256;
     type Hasher = subxt::config::substrate::BlakeTwo256;
