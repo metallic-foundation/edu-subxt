@@ -5,13 +5,10 @@ pub mod intake;
 pub mod system;
 pub mod university;
 
-use crate::chain::metadata::edu_chain::DispatchError;
-
 /// general type to be returned for (most) storage fetch request
 pub type RequestResult<T> = Result<Option<T>, subxt::Error>;
 /// general type to be returned for (most) extrinsic calls made
-pub type ExtrinsicResult<E> =
-    Result<Result<(), E>, subxt::Error>;
+pub type ExtrinsicResult<E> = Result<Result<(), E>, subxt::Error>;
 
 /// Block number used in chains
 pub type BlockNumber = crate::chain::config::BlockNumber;

@@ -39,3 +39,23 @@ impl SystemCalls for EduchainOnlineClient {
         todo!()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::testing::*;
+    use sp_keyring::AccountKeyring;
+
+    #[tokio::test]
+    async fn fetch_account_info() {
+        let api = make_local_client().await;
+
+        let alice_address = AccountKeyring::Alice.to_account_id().into();
+        let alice_info = api
+            .get_account_info(alice_address, None)
+            .await
+            .expect("Fetch error")
+            .expect("Alice does not exists");
+        assert_eq!(alice_info.data.free, 1_152_921_504_606_846_976);
+    }
+}
