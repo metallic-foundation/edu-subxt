@@ -1,4 +1,6 @@
 pub mod config;
+/// extend functionality of foreign types
+pub mod extend;
 pub mod metadata;
 
 use config::EduchainConfig;

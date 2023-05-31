@@ -1,8 +1,8 @@
 use super::CurrentPairSigner;
 use crate::chain::metadata::edu_chain;
-use crate::interface::{self, *};
-use crate::chain::EduchainOnlineClient;
 use crate::chain::metadata::edu_chain::runtime_types::sp_runtime::DispatchError;
+use crate::chain::EduchainOnlineClient;
+use crate::interface::{self, *};
 
 pub type IntakeId = edu_chain::runtime_types::types::intake::IntakeId<university::UniversityId>;
 pub type IntakeInfo = edu_chain::runtime_types::types::intake::IntakeInfo<interface::BlockNumber>;
@@ -86,6 +86,7 @@ impl TryFrom<DispatchError> for Error {
 
     fn try_from(dispatch_error: DispatchError) -> Result<Self, Self::Error> {
         match dispatch_error {
+            _ => todo!(),
         }
     }
 }

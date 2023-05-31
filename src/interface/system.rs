@@ -1,8 +1,7 @@
 use super::RequestResult;
+use crate::chain::extend::ExtendStorageClient;
 use crate::chain::{
-    config::BlockNumber,
-    metadata::edu_chain::{self},
-    AccountId, EduchainOnlineClient, Hash,
+    config::BlockNumber, metadata::edu_chain, AccountId, EduchainOnlineClient, Hash,
 };
 
 pub type AccountInfo =
@@ -29,7 +28,11 @@ impl SystemCalls for EduchainOnlineClient {
         at: Option<Hash>,
     ) -> RequestResult<AccountInfo> {
         let account_info_key = edu_chain::storage().system().account(&account);
-        self.storage().at(at).await?.fetch(&account_info_key).await
+        self.storage()
+            .at_or_latest(at)
+            .await?
+            .fetch(&account_info_key)
+            .await
     }
 
     async fn latest_finalized_block(&self) -> RequestResult<BlockNumber> {
