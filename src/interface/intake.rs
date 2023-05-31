@@ -1,6 +1,5 @@
 use super::CurrentPairSigner;
 use crate::chain::metadata::edu_chain;
-use crate::chain::metadata::edu_chain::runtime_types::sp_runtime::DispatchError;
 use crate::chain::EduchainOnlineClient;
 use crate::interface::{self, *};
 
@@ -11,7 +10,6 @@ pub type IntakeApplication =
     edu_chain::runtime_types::types::intake::IntakeApplication<interface::BlockNumber>;
 pub type PalletEvent = edu_chain::intake::Event;
 type StudentId = crate::chain::AccountId;
-type ExtrinsicResult = crate::interface::ExtrinsicResult<Error>;
 
 #[async_trait::async_trait]
 pub trait IntakeCalls {
@@ -55,38 +53,5 @@ impl IntakeCalls for EduchainOnlineClient {
         application: &IntakeApplication,
     ) -> ExtrinsicResult {
         todo!()
-    }
-}
-
-/// Error type in intake
-// Reflection of: https://github.com/metallic-foundation/edu-chain/blob/main/pallets/intake/src/lib.rs
-pub enum Error {
-    /// Cannot perform this action due to mismatched permission
-    InsufficientPermission,
-    /// Intake already exists
-    IntakeExists,
-    /// No such university
-    NonExistentUniversity,
-    /// Invalid parameter
-    InvalidParamater,
-    /// Intake does not exists
-    NonExistentIntake,
-    /// Intake closed
-    IntakeClosed,
-    /// Intake is still ongoing
-    IntakeOngoing,
-    /// application does not exsist
-    NonExistentApplication,
-    /// Intake is not closed
-    IntakeNotClosed,
-}
-
-impl TryFrom<DispatchError> for Error {
-    type Error = String;
-
-    fn try_from(dispatch_error: DispatchError) -> Result<Self, Self::Error> {
-        match dispatch_error {
-            _ => todo!(),
-        }
     }
 }

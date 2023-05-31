@@ -4,11 +4,14 @@ pub mod error;
 pub mod intake;
 pub mod system;
 pub mod university;
+use crate::chain::config::EduchainConfig;
+use crate::chain::EduchainOnlineClient;
+use subxt::tx::TxInBlock;
 
 /// general type to be returned for (most) storage fetch request
 pub type RequestResult<T> = Result<Option<T>, subxt::Error>;
 /// general type to be returned for (most) extrinsic calls made
-pub type ExtrinsicResult<E> = Result<Result<(), E>, subxt::Error>;
+pub type ExtrinsicResult = Result<TxInBlock<EduchainConfig, EduchainOnlineClient>, subxt::Error>;
 
 /// Block number used in chains
 pub type BlockNumber = crate::chain::config::BlockNumber;

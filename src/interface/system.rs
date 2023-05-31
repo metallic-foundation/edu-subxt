@@ -14,7 +14,7 @@ pub type AccountInfo =
 pub trait SystemCalls {
     async fn get_account_info(
         &self,
-        account: AccountId,
+        account: &AccountId,
         at: Option<Hash>,
     ) -> RequestResult<AccountInfo>;
     async fn latest_finalized_block(&self) -> RequestResult<BlockNumber>;
@@ -24,10 +24,10 @@ pub trait SystemCalls {
 impl SystemCalls for EduchainOnlineClient {
     async fn get_account_info(
         &self,
-        account: AccountId,
+        account: &AccountId,
         at: Option<Hash>,
     ) -> RequestResult<AccountInfo> {
-        let account_info_key = edu_chain::storage().system().account(&account);
+        let account_info_key = edu_chain::storage().system().account(account);
         self.storage()
             .at_or_latest(at)
             .await?
@@ -43,6 +43,8 @@ impl SystemCalls for EduchainOnlineClient {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::interface::balances::BalancesCall;
+    use crate::interface::PairSigner;
     use crate::testing::*;
     use sp_keyring::AccountKeyring;
 
@@ -50,12 +52,45 @@ mod tests {
     async fn fetch_account_info() {
         let api = make_local_client().await;
 
-        let alice_address = AccountKeyring::Alice.to_account_id().into();
+        let alice = PairSigner::new(AccountKeyring::Alice.pair());
+        let bob = PairSigner::new(AccountKeyring::Bob.pair());
+
         let alice_info = api
-            .get_account_info(alice_address, None)
+            .get_account_info(alice.account_id(), None)
             .await
             .expect("Fetch error")
             .expect("Alice does not exists");
         assert_eq!(alice_info.data.free, 1_152_921_504_606_846_976);
+
+        let bob_info = api
+            .get_account_info(bob.account_id(), None)
+            .await
+            .expect("Fetch error")
+            .expect("Bob does not exists");
+        assert_eq!(bob_info.data.free, 1_152_921_504_606_846_976);
+
+        // transfer balance from Alice to Bob
+        let transfer_amount = 1_000_000_000_000_000_000_u128.into();
+        api.transfer_balance(&alice, bob.account_id().clone(), transfer_amount)
+            .await
+            .expect("Transfer error")
+            .wait_for_success()
+            .await
+            .expect("Transfer failed");
+
+
+        let alice_info = api
+            .get_account_info(alice.account_id(), None)
+            .await
+            .expect("Fetch error")
+            .expect("Alice does not exists");
+        assert_eq!(alice_info.data.free, 1_152_921_504_606_846_976 - transfer_amount);
+
+        let bob_info = api
+            .get_account_info(bob.account_id(), None)
+            .await
+            .expect("Fetch error")
+            .expect("Bob does not exists");
+        assert_eq!(bob_info.data.free, 1_152_921_504_606_846_976 + transfer_amount);
     }
 }
