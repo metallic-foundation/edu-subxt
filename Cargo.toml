@@ -12,3 +12,8 @@ sp-core = { version = "20.0.0", default-features = false }
 
 [dev-dependencies]
 sp-keyring = { version = "23.0.0" }
+
+[features]
+default = ["saved-metadata"]
+saved-metadata = []
+live-metadata = []
