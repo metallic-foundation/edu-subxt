@@ -1,3 +1,5 @@
+#![allow(implied_bounds_entailment)]
+
 pub mod chain;
 pub mod interface;
 #[cfg(any(test, feature = "testing"))]

@@ -6,7 +6,7 @@ use crate::chain::AccountId;
 use crate::chain::Balance;
 use crate::chain::EduchainOnlineClient;
 
-pub type AccountData = runtime_types::pallet_balances::AccountData<Balance>;
+pub type AccountData = runtime_types::pallet_balances::types::AccountData<Balance>;
 
 #[async_trait::async_trait]
 pub trait BalancesCall {

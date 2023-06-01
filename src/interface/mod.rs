@@ -7,6 +7,7 @@ pub mod university;
 use crate::chain::config::EduchainConfig;
 use crate::chain::EduchainOnlineClient;
 use subxt::tx::TxInBlock;
+use subxt::ext::sp_core as subxt_sp_core;
 
 /// general type to be returned for (most) storage fetch request
 pub type RequestResult<T> = Result<Option<T>, subxt::Error>;
@@ -18,9 +19,9 @@ pub type BlockNumber = crate::chain::config::BlockNumber;
 
 /// Signer
 pub type PairSigner<Pair> = subxt::tx::PairSigner<crate::chain::config::EduchainConfig, Pair>;
-pub type EcdsaPairSigner = PairSigner<sp_core::ecdsa::Pair>;
-pub type Sr25519PairSigner = PairSigner<sp_core::sr25519::Pair>;
-pub type Ed25519PairSigner = PairSigner<sp_core::ed25519::Pair>;
-pub type DummyPairSigner = PairSigner<sp_core::crypto::Dummy>;
+pub type EcdsaPairSigner = PairSigner<subxt_sp_core::ecdsa::Pair>;
+pub type Sr25519PairSigner = PairSigner<subxt_sp_core::sr25519::Pair>;
+pub type Ed25519PairSigner = PairSigner<subxt_sp_core::ed25519::Pair>;
+pub type DummyPairSigner = PairSigner<subxt_sp_core::crypto::Dummy>;
 /// Signer used currently in Config
-pub type CurrentPairSigner = PairSigner<sp_core::sr25519::Pair>;
+pub type CurrentPairSigner = Sr25519PairSigner;
