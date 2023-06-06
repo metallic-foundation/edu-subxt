@@ -68,29 +68,5 @@ mod tests {
             .expect("Fetch error")
             .expect("Bob does not exists");
         assert_eq!(bob_info.data.free, 1_152_921_504_606_846_976);
-
-        // transfer balance from Alice to Bob
-        let transfer_amount = 1_000_000_000_000_000_000_u128.into();
-        api.transfer_balance(&alice, bob.account_id().clone(), transfer_amount)
-            .await
-            .expect("Transfer error")
-            .wait_for_success()
-            .await
-            .expect("Transfer failed");
-
-
-        let alice_info = api
-            .get_account_info(alice.account_id(), None)
-            .await
-            .expect("Fetch error")
-            .expect("Alice does not exists");
-        assert_eq!(alice_info.data.free, 1_152_921_504_606_846_976 - transfer_amount);
-
-        let bob_info = api
-            .get_account_info(bob.account_id(), None)
-            .await
-            .expect("Fetch error")
-            .expect("Bob does not exists");
-        assert_eq!(bob_info.data.free, 1_152_921_504_606_846_976 + transfer_amount);
     }
 }

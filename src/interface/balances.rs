@@ -1,3 +1,5 @@
+use subxt::tx::TxPayload;
+
 use super::CurrentPairSigner;
 use super::ExtrinsicResult;
 use crate::chain::metadata::edu_chain;
@@ -6,7 +8,7 @@ use crate::chain::AccountId;
 use crate::chain::Balance;
 use crate::chain::EduchainOnlineClient;
 
-pub type AccountData = runtime_types::pallet_balances::types::AccountData<Balance>;
+pub type AccountData = runtime_types::pallet_balances::AccountData<Balance>;
 
 #[async_trait::async_trait]
 pub trait BalancesCall {
@@ -27,6 +29,7 @@ impl BalancesCall for EduchainOnlineClient {
         amount: Balance,
     ) -> ExtrinsicResult {
         let tx = edu_chain::tx().balances().transfer(to.into(), amount);
+        println!("{:?}", tx);
         self.tx()
             .sign_and_submit_then_watch_default(&tx, from)
             .await?
